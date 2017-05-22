@@ -1,46 +1,49 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include "graph.h"
+#include "queue.h"
+
 #define PESOMAX 9999999
 
 int main() {
-        int qtdf, qtdc, l, c;
-        scanf("%d %d %d %d", &l, &c, &qtdf, &qtdc);
-        int x = l+2;
-        int z = c+2;
-        int m[x][z];
-        int i = 0;
-        memset(m, 0, sizeof(m[0][0]) * x * z);
-        while (i < l) {
+        int V, E, F, C;
+        int i, j;
+        scanf("%d %d %d %d", &V, &E, &F, &C);
+
+        int VV = V + 2;
+
+        int **grafoMatriz = alocaGrafoMatriz(VV);
+
+        i = 0;
+        j = 0;
+
+        while (i < E) {
                 int a, b, p;
                 scanf("%d %d %d", &a, &b, &p);
-                m[a][b] = p;
+                grafoMatriz[a][b] = p;
                 i++;
         }
-        int posf, posc;
-        int j;
-        // for(i = 0; i < qtdf; i++)
-        //         scanf("%d", &posf[i]);
-        // for(j = 0; j < qtdc; j++)
-        //         scanf("%d", &posc[j]);
 
-        scanf("%d %d", &posf, &posc);
+        int pos_f[F], pos_c[C];
 
-        i = x-1;
-        j = z-2;
-        m[posc][i] = PESOMAX;
-        m[j][posf] = PESOMAX;
-
-        for (i = 0; i < x; i++) {
-                for (j = 0; j < z; j++) {
-                        printf("%d ", m[i][j]);
-                }
-                printf("\n");
+        for(i = 0; i < F; i++) {
+                scanf("%d", &pos_f[i]);
         }
 
-        //for(i = 0; i < qtdf; i++)
-        //printf("%d\n", posf[i]);
-//	for(j = 0; j < qtdc; j++)
-//	printf("%d\n", posc[j]);
+        for(j = 0; j < C; j++) {
+                scanf("%d", &pos_c[j]);
+        }
 
+        for(i = 0; i < F; i++) {
+                grafoMatriz[VV-2][pos_f[i]] = PESOMAX;
+        }
+
+        for(j = 0; j < C; j++) {
+                grafoMatriz[pos_c[j]][VV-1] = PESOMAX;
+        }
+
+        calculaFluxo(grafoMatriz, VV, VV-2, VV-1);
+        liberaGrafoMatriz(grafoMatriz, VV);
         return 0;
 }
