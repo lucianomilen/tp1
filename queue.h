@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+//LUCIANO OTONI MILEN [2012079754]
 
 typedef struct elem *apont;
 
